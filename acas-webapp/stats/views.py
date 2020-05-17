@@ -3,6 +3,7 @@ from django.shortcuts import render
 
 import speedtest
 import subprocess
+import re
 
 
 st = speedtest.Speedtest()
@@ -34,15 +35,43 @@ def convert2Mega(x):
 	return x / (10**6)
 
 
+# Function: getBondPortStatus(str)
+# Description: Returns a list of tuples for the ports used and the status of each port in the bond
+def getBondPortStatus(bondCommandOutput):
+	status = re.findall(r"\nslave (.*): (.*)\n", bondCommandOutput)
+
+	for i in range(len(status)):
+		if status[i][1] == "enabled":
+			status[i] = (status[i][0], "active")
+		else:
+			status[i] = (status[i][0], "inactive")
+
+	return status
+
+
+# Function: getActiveSlave(str)
+# Description: Returns a list of the active slave port in the bond
+def getActiveSlave(bondCommandOutput):
+	active = re.findall(r"\nslave (.*): enabled\s+active slave\n", bondCommandOutput)
+	if len(active) == 0:
+		active = None
+	else:
+		active = active[0]
+
+	return active
+
+
 # Function: statsView()
 # Description: Returns the components for the statistics page
 def statsView(request):
-	command = 'ls'
+	command = 'sudo ovs-appctl bond/show bond0'
 	commandResult = execute(command)
 	uploadSpeedbps = getUploadSpeed()
 	downloadSpeedbps = getDownloadSpeed()
 	uploadSpeedMbps = convert2Mega(uploadSpeedbps)
 	downloadSpeedMbps = convert2Mega(downloadSpeedbps)
+	bondPortStatus = getBondPortStatus(commandResult)
+	activeSlave = getActiveSlave(commandResult)
 
 	context = {
 		'uploadSpeedbps': "{:.0f}".format(uploadSpeedbps),
@@ -50,6 +79,8 @@ def statsView(request):
 		'uploadSpeedMbps': "{:.2f}".format(uploadSpeedMbps),
 		'downloadSpeedMbps': "{:.2f}".format(downloadSpeedMbps),
 		'commandResult': commandResult,
+		'bondPortStatus': bondPortStatus,
+		'activeSlave': activeSlave,
 	}
 
 	return render(request, "statistics.html", context)

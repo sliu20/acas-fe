@@ -4,10 +4,22 @@
 
 		<h1>SpeedTest.net Statistics</h1>
 		<p>Download Speed: {{ downloadSpeedMbps }} Mbps ({{ downloadSpeedbps }} bps)</p>
-
 		<p>Upload Speed: {{ uploadSpeedMbps }} Mbps ({{ uploadSpeedbps }} bps)</p>
-		<h1>Command Output</h1>
-		<p> {{ commandResult }} </p>
 
+		<h1>OvS Bonding Information</h1>
+		<h2>Port Statuses</h2>
+		<p>
+			{% for port in bondPortStatus %}
+				Port {{ port.0 }} is {{ port.1 }}<br>
+			{% endfor %}
+		</p>
+		<h2>Active Slave</h2>
+		<p>
+			{% if activeSlave != None %}
+				Port {{ activeSlave }} is being used in the bond.
+			{% else %}
+				There are no ports being used in the bond.
+			{% endif %}
+		</p>
 	</body>
 </html>
