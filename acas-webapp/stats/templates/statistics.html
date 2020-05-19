@@ -1,25 +1,49 @@
+<!-- {% load static %} -->
+
 <!DOCTYPE html>
 <html>
-	<body>
-
-		<h1>SpeedTest.net Statistics</h1>
-		<p>Download Speed: {{ downloadSpeedMbps }} Mbps ({{ downloadSpeedbps }} bps)</p>
-		<p>Upload Speed: {{ uploadSpeedMbps }} Mbps ({{ uploadSpeedbps }} bps)</p>
-
-		<h1>OvS Bonding Information</h1>
-		<h2>Port Statuses</h2>
-		<p>
-			{% for port in bondPortStatus %}
-				Port {{ port.0 }} is {{ port.1 }}<br>
-			{% endfor %}
-		</p>
-		<h2>Active Slave</h2>
-		<p>
-			{% if activeSlave != None %}
-				Port {{ activeSlave }} is being used in the bond.
-			{% else %}
-				There are no ports being used in the bond.
-			{% endif %}
-		</p>
+	<head>
+		<title>ACAS Statistics</title>
+		<!-- <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/> -->
+		<style>
+			.pageContainer {
+				font-family: "Open Sans", "arial", "sans-serif";
+				background-color: #2D4276;
+				color: #fff;
+				padding: 2%;
+				margin: 0;
+			}
+			.contentContainer {
+				background-color: #fff;
+				color: #000;
+				padding: 2%;
+				border-radius: 10px;
+			};
+		</style>
+	</head>
+	<body class="pageContainer">
+		<!-- <img src="{% static 'logo.png' %}" alt="logo" width="40em" height="40em" /> -->
+		<img src="../static/logo.png" alt="logo" width="40em" height="40em" />
+		<div class="contentContainer">
+			<h1>SpeedTest.net Statistics</h1>
+			<p>Download Speed: {{ downloadSpeedMbps }} Mbps ({{ downloadSpeedbps }} bps)</p>
+			<p>Upload Speed: {{ uploadSpeedMbps }} Mbps ({{ uploadSpeedbps }} bps)</p>
+		
+			<h1>OvS Bonding Information</h1>
+			<h2>Port Statuses</h2>
+			<p>
+				{% for port in bondPortStatus %}
+					Port {{ port.0 }} is {{ port.1 }}<br>
+				{% endfor %}
+			</p>
+			<h2>Active Slave</h2>
+			<p>
+				{% if activeSlave != None %}
+					Port {{ activeSlave }} is being used in the bond.
+				{% else %}
+					There are no ports being used in the bond.
+				{% endif %}
+			</p>
+		</div>
 	</body>
 </html>
