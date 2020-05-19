@@ -1,10 +1,10 @@
-<!-- {% load static %} -->
-
 <!DOCTYPE html>
 <html>
 	<head>
+		<meta charset="utf-8">
 		<title>ACAS Statistics</title>
-		<!-- <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/> -->
+		<link href="../../static/logo.png" rel="shortcut icon" type="image/png" />
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Raleway:300,400,500,700,800" rel="stylesheet" />
 		<style>
 			.pageContainer {
 				font-family: "Open Sans", "arial", "sans-serif";
@@ -22,19 +22,22 @@
 		</style>
 	</head>
 	<body class="pageContainer">
-		<!-- <img src="{% static 'logo.png' %}" alt="logo" width="40em" height="40em" /> -->
-		<img src="../static/logo.png" alt="logo" width="40em" height="40em" />
+		<img src="../../static/logo.png" alt="logo" width="50em" height="50em" style="margin-bottom: 2%;" />
 		<div class="contentContainer">
-			<h1>SpeedTest.net Statistics</h1>
+			<h1 style="margin-top: 0;"> SpeedTest.net Statistics</h1>
 			<p>Download Speed: {{ downloadSpeedMbps }} Mbps ({{ downloadSpeedbps }} bps)</p>
 			<p>Upload Speed: {{ uploadSpeedMbps }} Mbps ({{ uploadSpeedbps }} bps)</p>
 		
 			<h1>OvS Bonding Information</h1>
 			<h2>Port Statuses</h2>
 			<p>
-				{% for port in bondPortStatus %}
-					Port {{ port.0 }} is {{ port.1 }}<br>
-				{% endfor %}
+				{% if bondPortStatus %}
+					{% for port in bondPortStatus %}
+						Port {{ port.0 }} is {{ port.1 }}<br>
+					{% endfor %}
+				{% else %}
+					There are no ports being used.
+				{% endif %}
 			</p>
 			<h2>Active Slave</h2>
 			<p>
