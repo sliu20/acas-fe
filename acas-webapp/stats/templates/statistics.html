@@ -27,11 +27,15 @@
 			<h1 style="margin-top: 0;"> SpeedTest.net Statistics</h1>
 			<p>Download Speed: {{ downloadSpeedMbps }} Mbps ({{ downloadSpeedbps }} bps)</p>
 			<p>Upload Speed: {{ uploadSpeedMbps }} Mbps ({{ uploadSpeedbps }} bps)</p>
+
+			<form action="" method="GET">
+				<button type="submit">Run Speed Test</button>
+			</form>
 		
 			<h1>OvS Bonding Information</h1>
 			<h2>Port Statuses</h2>
 			<p>
-				{% if bondPortStatus %}
+				{% if bondPortStatus != None %}
 					{% for port in bondPortStatus %}
 						Port {{ port.0 }} is {{ port.1 }}<br>
 					{% endfor %}

@@ -40,6 +40,9 @@ def convert2Mega(x):
 def getBondPortStatus(bondCommandOutput):
 	status = re.findall(r"\nslave (.*): (.*)\n", bondCommandOutput)
 
+	if len(status) == 0:
+		return None
+
 	for i in range(len(status)):
 		if status[i][1] == "enabled":
 			status[i] = (status[i][0], "active")
