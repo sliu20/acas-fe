@@ -25,10 +25,16 @@
 		<img src="../../static/logo.png" alt="logo" width="50em" height="50em" style="margin-bottom: 2%;" />
 		<div class="contentContainer">
 			<h1 style="margin-top: 0;"> SpeedTest.net Statistics</h1>
-			<p>Download Speed: {{ downloadSpeedMbps }} Mbps ({{ downloadSpeedbps }} bps)</p>
-			<p>Upload Speed: {{ uploadSpeedMbps }} Mbps ({{ uploadSpeedbps }} bps)</p>
+			{% if downloadSpeedMbps != None %}
+				<p>
+					Download Speed: {{ downloadSpeedMbps }} Mbps ({{ downloadSpeedbps }} bps)
+					<br>
+					Upload Speed: {{ uploadSpeedMbps }} Mbps ({{ uploadSpeedbps }} bps)
+				</p>
+			{% endif %}
 
-			<form action="" method="GET">
+			<form action="" method="POST">
+				{% csrf_token %}
 				<button type="submit">Run Speed Test</button>
 			</form>
 		

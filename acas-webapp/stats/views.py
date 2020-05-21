@@ -64,24 +64,41 @@ def getActiveSlave(bondCommandOutput):
 	return active
 
 
+# GLOBAL VARIABLES
+bondPortStatus = None
+activeSlave = None
+
+
 # Function: statsView()
 # Description: Returns the components for the statistics page
 def statsView(request):
-	command = 'sudo ovs-appctl bond/show bond0'
-	commandResult = execute(command)
-	uploadSpeedbps = getUploadSpeed()
-	downloadSpeedbps = getDownloadSpeed()
-	uploadSpeedMbps = convert2Mega(uploadSpeedbps)
-	downloadSpeedMbps = convert2Mega(downloadSpeedbps)
-	bondPortStatus = getBondPortStatus(commandResult)
-	activeSlave = getActiveSlave(commandResult)
+	global bondPortStatus
+	global activeSlave
+
+	if request.method == "POST":
+		upload = getUploadSpeed()
+		download = getDownloadSpeed()
+		uploadSpeedbps = "{:.0f}".format(upload)
+		downloadSpeedbps = "{:.0f}".format(download)
+		uploadSpeedMbps = "{:.2f}".format(convert2Mega(upload))
+		downloadSpeedMbps = "{:.2f}".format(convert2Mega(download))
+		#bondPortStatus = None
+		#activeSlave = None
+	else:
+		command = 'sudo ovs-appctl bond/show bond0'
+		commandResult = execute(command)
+		uploadSpeedbps = None
+		downloadSpeedbps = None
+		uploadSpeedMbps = None
+		downloadSpeedMbps = None
+		bondPortStatus = getBondPortStatus(commandResult)
+		activeSlave = getActiveSlave(commandResult)
 
 	context = {
-		'uploadSpeedbps': "{:.0f}".format(uploadSpeedbps),
-		'downloadSpeedbps': "{:.0f}".format(downloadSpeedbps),
-		'uploadSpeedMbps': "{:.2f}".format(uploadSpeedMbps),
-		'downloadSpeedMbps': "{:.2f}".format(downloadSpeedMbps),
-		'commandResult': commandResult,
+		'uploadSpeedbps': uploadSpeedbps,
+		'downloadSpeedbps': downloadSpeedbps,
+		'uploadSpeedMbps': uploadSpeedMbps,
+		'downloadSpeedMbps': downloadSpeedMbps,
 		'bondPortStatus': bondPortStatus,
 		'activeSlave': activeSlave,
 	}
