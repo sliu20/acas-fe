@@ -35,10 +35,12 @@
 
 			<form action="" method="POST">
 				{% csrf_token %}
-				<button type="submit">Run Speed Test</button>
+				<button type="submit" name="run_speed_test" value="run&speed&test">Run Speed Test</button>
 			</form>
-		
+
+
 			<h1>OvS Bonding Information</h1>
+
 			<h2>Port Statuses</h2>
 			<p>
 				{% if bondPortStatus != None %}
@@ -46,17 +48,38 @@
 						Port {{ port.0 }} is {{ port.1 }}<br>
 					{% endfor %}
 				{% else %}
-					There are no ports being used.
+					There are no ports shown/being used.
 				{% endif %}
 			</p>
+
 			<h2>Active Slave</h2>
 			<p>
 				{% if activeSlave != None %}
 					Port {{ activeSlave }} is being used in the bond.
 				{% else %}
-					There are no ports being used in the bond.
+					There are no ports shown/being used in the bond.
 				{% endif %}
 			</p>
+			<form action="" method="POST">
+				{% csrf_token %}
+				<button type="submit" name="get_ovs_information" value="get&ovs&information">Get OvS Information</button>
+			</form>
+
+
+			<h1>OvS Configuration</h1>
+
+			<h2>Configure Active Slave</h2>
+			<form action="" method="POST">
+				{% csrf_token %}
+				<label for="port">Enter Port: </label>
+					<input id="port" type="text" name="port" value="{{ port }}">
+				<button type="submit" name="configure_active_slave" value="configure&active&slave">Configure</button>
+			</form>
+
+			{% if configureActiveSlaveMessage != None %}
+				<p> {{ configureActiveSlaveMessage }} </pp>
+			{% endif %}
+
 		</div>
 	</body>
 </html>
