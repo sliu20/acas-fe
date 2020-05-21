@@ -46,6 +46,7 @@
 					style="
 						display: block;
 						font-size: 14px;
+						font-weight: bold;
 						background-color: #95C3EC;
 						border-radius: 30px;
 						padding: 10px;
@@ -80,7 +81,19 @@
 			</p>
 			<form action="" method="POST">
 				{% csrf_token %}
-				<button type="submit" name="get_ovs_information" value="get&ovs&information">Get OvS Information</button>
+				<button type="submit" name="get_ovs_information" value="get&ovs&information" 
+					style="
+						display: block;
+						font-size: 14px;
+						font-weight: bold;
+						background-color: #95C3EC;
+						border-radius: 30px;
+						padding: 10px;
+						min-width: 200px;
+						cursor: pointer;
+				">
+					Get OvS Information
+				</button>
 			</form>
 
 
@@ -90,8 +103,24 @@
 			<form action="" method="POST">
 				{% csrf_token %}
 				<label for="port">Enter Port: </label>
-					<input id="port" type="text" name="port" value="{{ port }}">
-				<button type="submit" name="configure_active_slave" value="configure&active&slave">Configure</button>
+					<input id="port" type="text" name="port" value="{{ port }}"
+						style="border: 1px solid black;
+							padding: 5px;
+							margin: 5px;
+					">
+				<button type="submit" name="configure_active_slave" value="configure&active&slave"
+					style="
+						display: block;
+						font-size: 14px;
+						font-weight: bold;
+						background-color: #95C3EC;
+						border-radius: 30px;
+						padding: 10px;
+						min-width: 200px;
+						cursor: pointer;
+					">
+					Configure
+				</button>
 			</form>
 
 			{% if configureActiveSlaveMessage != None %}
