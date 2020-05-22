@@ -48,9 +48,9 @@ def getBondPortStatus(bondCommandOutput):
 
 	for i in range(len(status)):
 		if status[i][1] == "enabled":
-			status[i] = (status[i][0], "active")
+			status[i] = (status[i][0], "available")
 		else:
-			status[i] = (status[i][0], "inactive")
+			status[i] = (status[i][0], "unavailable")
 
 	return status
 
@@ -78,9 +78,9 @@ def getConfigureActiveSlaveMessage(configureCommandOutput, port):
 	elif message == "no change":
 		message = "Warning: Port " + port + " is already the active slave."
 	elif message == "no such slave":
-		message = "Error: There was no such port " + port + " used in the bond. Please select a port that is used in the bond."
+		message = "Error: There was no such port " + port + " used in the bond. Please select an available port that is used in the bond."
 	elif message == "cannot make disabled slave active":
-		message = "Error: Port " + port + " is inactive. Please select an active port."
+		message = "Error: Port " + port + " is unavailable. Please select an available port."
 	else:
 		message = "Error: Something went wrong. Try again or contact system admin to resolve persisting issues."
 
